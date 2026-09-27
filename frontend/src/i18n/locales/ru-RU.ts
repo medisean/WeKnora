@@ -845,7 +845,7 @@ export default {
       empty: 'Конечных точек MCP пока нет',
       disabled: 'Отключена',
       cardSummary: 'Инструментов: {tools} · {scope}',
-      scopeAll: 'Все базы знаний',
+              scopeAll: 'Все базы знаний',
       scopeCount: 'Баз знаний: {count}',
       create: 'Новая конечная точка',
       editTitle: 'Изменить конечную точку MCP',
@@ -1029,6 +1029,12 @@ export default {
     prereqStep3Brief_yuque: '(Опционально) Для Enterprise укажите Base URL',
     prereqStep3Desc_yuque: 'Пользователям публичного облака указывать не нужно. Для Yuque Enterprise или приватного развёртывания укажите корпоративный домен',
     prereqOpenConsole_yuque: 'Перейти к настройкам Yuque Token',
+    yuqueFolderModeLabel: 'Структура папок',
+    yuqueFolderModeToc: 'Как в оглавлении Yuque',
+    yuqueFolderModeNone: 'Всё в корне',
+    yuqueFolderModeHint: 'Раскладывает документы по папкам согласно оглавлению Yuque. Обратите внимание: папки, перемещённые вручную в базе знаний, будут перезаписаны структурой Yuque при следующей синхронизации этого документа.',
+    yuqueTOCOnly: 'Синхронизировать только видимые в оглавлении Yuque документы',
+    yuqueTOCOnlyHint: 'Требуется режим «Как в оглавлении Yuque». Документы, уже добавленные в базу знаний, остаются нетронутыми — документ, которого нет в оглавлении Yuque, просто перестаёт добавляться, но не удаляется.',
     prereqBarText_dingtalk: 'Используете впервые? Откройте руководство по настройке приложения DingTalk',
     prereqStep1Brief_dingtalk: 'Создайте внутреннее корпоративное приложение',
     prereqStep1Desc_dingtalk: 'Создайте внутреннее приложение в DingTalk Open Platform и скопируйте Client ID и Client Secret.',
@@ -1124,6 +1130,9 @@ export default {
       feedUrlsHint: 'По одному адресу ленты RSS / Atom в строке; можно указать несколько.',
       authHeaders: 'Пользовательские заголовки (необязательно)',
       authHeadersHint: 'Для приватных лент. По одному в строке в формате «Имя: Значение», например Authorization: Bearer xxxx'
+    },
+    confluence: {
+      cloudFolderLimitation: 'Confluence Cloud пока не может показать здесь страницы из папок верхнего уровня пространства; при выборе всего пространства они будут синхронизированы.'
     },
     connectorDesc: {
       feishu: 'Синхронизация документов, таблиц и файлов из Feishu Wiki',
@@ -2008,6 +2017,8 @@ export default {
     retry: 'Повторить',
     unsupported: 'Этот тип файла не поддерживает онлайн-просмотр',
     unsupportedHint: 'Скачайте файл и откройте локально',
+    zoomIn: 'Увеличить',
+    zoomOut: 'Уменьшить',
     fullscreen: 'Полноэкранный режим',
     exitFullscreen: 'Выйти из полноэкранного режима',
     htmlRendered: 'Отображение',
@@ -3948,6 +3959,13 @@ export default {
     channelIm: 'IM',
     chunkLabel: 'Фрагмент {index}:',
     navigateToDocument: 'Просмотр документа',
+    referenceSourceBack: 'Все источники',
+    referenceSourceView: 'Открыть оригинал',
+    referenceSourceRelocate: 'Найти снова',
+    referenceSourceLocating: 'Поиск цитируемого фрагмента…',
+    referenceSourceFoundPage: 'Найдено на странице {page}',
+    referenceSourceNotFound: 'Не удалось точно найти фрагмент; открыт оригинал',
+    referenceSourceOpenWeb: 'Открыть веб-страницу на этом фрагменте',
     chunkIdLabel: 'ID фрагмента:',
     documentIdLabel: 'ID документа:',
     faqIdLabel: 'FAQ ID:',
@@ -4067,7 +4085,16 @@ export default {
         descriptionLanguageAuto: 'Следовать языку документа',
         customInstructionsLabel: 'Инструкции обработки изображений',
         customInstructionsDescription: 'Добавьте визуальные приоритеты, сохраняя правила OCR и Markdown',
-        customInstructionsPlaceholder: 'Например: распознавать шильдики, модели, коды ошибок и единицы таблиц…'
+        customInstructionsPlaceholder: 'Например: распознавать шильдики, модели, коды ошибок и единицы таблиц…',
+        imageAttrsLabel: 'Наблюдение атрибутов изображений',
+        imageAttrsDescription: 'Когда включено, каждое изображение сначала наблюдается на атрибуты и описывается, затем атрибуты решают, нужен ли OCR текста в изображении. Когда выключено — базовый режим: каждое изображение описывается и распознаётся',
+        imageAttrsSchemaLabel: 'Наблюдаемые атрибуты изображений',
+        imageAttrsSchemaDescription: 'Модель наблюдает перечисленные ниже атрибуты (определены реестром бэкенда), чтобы управлять политикой OCR',
+        imageAttrsOcrConditions: 'Запуск OCR по наблюдаемым условиям атрибутов',
+        imageAttrsOcrConditionsDesc: 'Когда наблюдаемые атрибуты соответствуют условиям ниже, для изображения выполняется OCR',
+        imageAttrsOcrOnUnobserved: 'Запускать OCR при сбое наблюдения атрибутов изображения',
+        imageAttrsOcrOnUnobservedDesc: 'Если модель не смогла корректно наблюдать атрибуты изображения, OCR по умолчанию всё равно выполняется, чтобы не потерять текст; выключите, чтобы пропустить. (Небольшая визуальная модель вроде 4B или пользовательские инструкции к изображениям, конфликтующие с системным промптом, могут привести к сбою наблюдения; модели 8B и выше ошибаются редко, поэтому отключать не рекомендуется)',
+        imagePipelineKbNote: 'По умолчанию следуют настройкам базы знаний; можно изменить для этой задачи'
       },
       tableMetadataInstructions: {
         label: 'Инструкции метаданных таблиц',
@@ -4433,6 +4460,77 @@ export default {
       editingBadge: 'Редактирование',
       pageActions: 'Действия со страницей',
       tabDocuments: 'Документы',
+      tabGallery: 'Галерея',
+      tabDocumentsTip: 'Загрузка исходных документов и управление ими',
+      tabWikiTip: 'Wiki-страницы, автоматически составленные из документов',
+      tabGalleryTip: 'Все изображения, извлечённые из документов',
+      viewTabs: 'Представления базы знаний',
+      gallery: {
+        title: 'Галерея',
+        allImages: 'Все изображения',
+        count: 'Изображений: {count}',
+        countFiltered: 'Найдено: {count}',
+        searchPlaceholder: 'Поиск по описанию или тексту на изображении',
+        filters: 'Фильтры',
+        clearFilters: 'Сбросить фильтры',
+        searchIn: 'Где искать',
+        searchInHint: 'Ключевые слова ищутся только в отмеченных полях',
+        attrSection: 'Атрибуты изображений',
+        attrHint: '«Скрыть» убирает изображения с этим значением; «Всегда показывать» оставляет их, даже если другое правило их скрывает',
+        verdictDefault: 'Любое',
+        verdictOff: 'Скрыть',
+        verdictOn: 'Всегда показывать',
+        keywordsPlaceholder: 'Ключевые слова через запятую',
+        noAttrs: 'Нет атрибутов для фильтрации',
+        sort: 'Сортировка',
+        sortField: 'Сортировать по',
+        sortOrder: 'Порядок',
+        orderAsc: 'По возрастанию',
+        orderDesc: 'По убыванию',
+        empty: 'Изображений пока нет',
+        emptyHint: 'Изображения из документов появятся здесь после завершения разбора',
+        emptyFiltered: 'Нет изображений, подходящих под фильтры',
+        imageLoadError: 'Не удалось загрузить изображение',
+        noCaption: 'Нет описания',
+        noOcr: 'Текст не распознан',
+        caption: 'Описание',
+        ocr: 'Текст на изображении (OCR)',
+        attributes: 'Атрибуты',
+        source: 'Исходный документ',
+        details: 'Подробности',
+        dimensions: 'Размер',
+        status: 'Статус',
+        openSource: 'Открыть исходный документ',
+        copy: 'Копировать',
+        zoomIn: 'Увеличить (+)',
+        zoomOut: 'Уменьшить (-)',
+        zoomReset: 'По размеру окна (0)',
+        actualSize: 'Исходный размер',
+        rotate: 'Повернуть (R)',
+        download: 'Скачать',
+        openOriginal: 'Открыть в новой вкладке',
+        toggleInfo: 'Сведения (I)',
+        viewerClose: 'Закрыть (Esc)',
+        prev: 'Назад (←)',
+        next: 'Вперёд (→)',
+        // Display names for the builtin attributes the gallery itself
+        // declares. Attributes contributed by other sources fall back to the
+        // pipeline's own wording (see the imageAttr namespace).
+        attr: {
+          builtin_caption: 'Описание',
+          builtin_caption_description: 'Описание изображения, сгенерированное моделью.',
+          builtin_ocr_text: 'OCR-текст',
+          builtin_ocr_text_description: 'Текст, извлечённый из изображения OCR.',
+          builtin_created_at: 'Время создания',
+          builtin_created_at_description: 'Когда был создан фрагмент исходного документа.',
+          builtin_updated_at: 'Время изменения',
+          builtin_updated_at_description: 'Когда фрагмент исходного документа был изменён последний раз.',
+          builtin_is_enabled: 'Состояние',
+          builtin_is_enabled_description: 'Участвует ли фрагмент исходного документа в поиске.',
+          builtin_is_enabled_value_true: 'Включено',
+          builtin_is_enabled_value_false: 'Отключено',
+        },
+      },
       tabGraph: 'Граф',
       tabGraphTip: 'Граф связей между Wiki-страницами (граф ссылок страниц). Это НЕ то же самое, что граф знаний на основе сущностей и отношений, настраиваемый в «Настройки БЗ → Граф знаний».',
       searchPlaceholder: 'Поиск Wiki-страниц...',
@@ -4933,8 +5031,8 @@ export default {
       sharedReadonly: 'Доступно мне · Только просмотр'
     },
     pin: {
-      pin: 'Закрепить',
-      unpin: 'Открепить',
+              pin: 'Закрепить',
+              unpin: 'Открепить',
       pinSuccess: 'Закреплено',
       unpinSuccess: 'Откреплено',
       failed: 'Операция не удалась'
@@ -7657,5 +7755,28 @@ export default {
     myChats: 'Мои чаты',
     apiChats: 'Сессии API',
     noSessions: 'Пока нет диалогов'
+  },
+  // Тексты для наблюдаемых атрибутов изображения, с ключом по имени атрибута.
+  // Точки в имени атрибута экранируются подчёркиванием (contain.text → contain_text):
+  // vue-i18n разбирает ключ по точкам, поэтому литеральный ключ 'contain.text'
+  // никогда не найдётся. Атрибут без перевода отображается описанием из реестра.
+  imageAttr: {
+    contain_text: {
+      label: 'Количество текста на изображении',
+      description: 'Сколько основного текста содержит само изображение. Определяет, стоит ли запускать для него отдельный проход OCR.',
+      values: {
+        none: { label: 'Нет текста', description: 'текста нет' },
+        sparse: { label: 'Немного текста', description: 'несколько слов —— логотип, дорожный знак, одна надпись' },
+        block: { label: 'Блок текста', description: 'блок основного текста —— скриншот, таблица, страница документа' }
+      }
+    },
+    contain_data_visual: {
+      label: 'Визуализация данных',
+      description: 'Передаёт ли изображение данные в виде графика, диаграммы, схемы или инфографики. Такие изображения остаются в очереди OCR, даже если текста на вид немного.',
+      values: {
+        'true': { label: 'Да', description: 'да —— график, диаграмма или схема' },
+        'false': { label: 'Нет', description: 'нет —— фото, рисунок, значок или декор' }
+      }
+    }
   }
 }
